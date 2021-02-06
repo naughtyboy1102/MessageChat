@@ -20,7 +20,7 @@
         android:paddingTop="@dimen/nav_header_vertical_spacing"
         app:layout_constraintBottom_toTopOf="@+id/btn_navheader_login"
         app:layout_constraintStart_toStartOf="parent"
-        app:srcCompat="@drawable/ic_user_avatar" />
+        app:srcCompat="@drawable/ic_user_avatar00" />
 
     <TextView
         android:id="@+id/tv_navheader_username"

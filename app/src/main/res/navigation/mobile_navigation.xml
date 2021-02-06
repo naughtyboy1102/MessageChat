@@ -32,6 +32,6 @@
 
     <activity
         android:id="@+id/loginActivity"
-        android:name="com.example.messagechat.LoginActivity"
+        android:name="com.example.messagechat.ui.login.LoginActivity"
         android:label="LoginActivity" />
 </navigation>

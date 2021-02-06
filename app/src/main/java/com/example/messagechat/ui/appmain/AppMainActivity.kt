@@ -1,4 +1,4 @@
-package com.example.messagechat
+package com.example.messagechat.ui.appmain
 
 import android.os.Bundle
 import androidx.navigation.findNavController
@@ -9,6 +9,7 @@ import androidx.navigation.ui.setupWithNavController
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.navigation.NavController
+import com.example.messagechat.R
 import com.example.messagechat.databinding.ActivityAppMainBinding
 import kotlinx.android.synthetic.main.app_bar_main.view.*
 import kotlinx.android.synthetic.main.content_main.view.*
@@ -22,7 +23,9 @@ class AppMainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding = DataBindingUtil.setContentView(this, R.layout.activity_app_main)
+        binding = DataBindingUtil.setContentView(this,
+            R.layout.activity_app_main
+        )
 
         //Setup navigation
         setSupportActionBar(binding.drawerLayout.toolbar)

@@ -1,7 +1,8 @@
-package com.example.messagechat
+package com.example.messagechat.ui.appmain
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import com.example.messagechat.R
 
 class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
