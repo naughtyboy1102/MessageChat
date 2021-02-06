@@ -13,6 +13,9 @@
         <action
             android:id="@+id/action_nav_home_to_nav_gallery"
             app:destination="@id/nav_gallery" />
+        <action
+            android:id="@+id/action_nav_home_to_loginActivity"
+            app:destination="@id/loginActivity" />
     </fragment>
 
     <fragment
@@ -26,4 +29,9 @@
         android:name="com.example.messagechat.ui.slideshow.SlideshowFragment"
         android:label="@string/menu_slideshow"
         tools:layout="@layout/fragment_slideshow" />
+
+    <activity
+        android:id="@+id/loginActivity"
+        android:name="com.example.messagechat.LoginActivity"
+        android:label="LoginActivity" />
 </navigation>
