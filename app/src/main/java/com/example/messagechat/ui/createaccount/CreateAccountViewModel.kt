@@ -24,12 +24,12 @@ class CreateAccountViewModel : ObservableViewModel() {
         notifyPropertyChanged(BR.userAvatar)
     }
 
-     @Bindable
+    @Bindable
     fun getUserAvatarColor(): Int? {
         return userAvatarColor
     }
 
-     fun setUserAvatarColor(color: Int) {
+    fun setUserAvatarColor(color: Int) {
         userAvatarColor = color
 
         notifyPropertyChanged(BR.userAvatarColor)

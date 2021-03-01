@@ -1,138 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools">
-    <androidx.constraintlayout.widget.ConstraintLayout
+    android:id="@+id/frl_activity_login_main_content"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <!-- <fragment
+        android:id="@+id/nav_host_fragment_create_account"
+        android:name="androidx.navigation.fragment.NavHostFragment"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".ui.createaccount.CreateAccountActivity">
+        app:defaultNavHost="true"
+        app:navGraph="@navigation/activity_create_account_graph"/> -->
+</FrameLayout>
 
-        <EditText
-            android:id="@+id/edt_password"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/activity_login_horizontal_margin"
-            android:layout_marginLeft="@dimen/activity_login_horizontal_margin"
-            android:layout_marginTop="16dp"
-            android:layout_marginEnd="@dimen/activity_login_horizontal_margin"
-            android:layout_marginRight="@dimen/activity_login_horizontal_margin"
-            android:ems="10"
-            android:hint="Password"
-            android:inputType="textPersonName"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/edt_email" />
 
-        <EditText
-            android:id="@+id/edt_email"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/activity_login_horizontal_margin"
-            android:layout_marginLeft="@dimen/activity_login_horizontal_margin"
-            android:layout_marginTop="16dp"
-            android:layout_marginEnd="@dimen/activity_login_horizontal_margin"
-            android:layout_marginRight="@dimen/activity_login_horizontal_margin"
-            android:ems="10"
-            android:hint="Email"
-            android:inputType="textPersonName"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/edt_username" />
 
-        <EditText
-            android:id="@+id/edt_username"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/activity_login_horizontal_margin"
-            android:layout_marginLeft="@dimen/activity_login_horizontal_margin"
-            android:layout_marginTop="32dp"
-            android:layout_marginEnd="@dimen/activity_login_horizontal_margin"
-            android:layout_marginRight="@dimen/activity_login_horizontal_margin"
-            android:ems="10"
-            android:hint="Username"
-            android:inputType="textPersonName"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <TextView
-            android:id="@+id/textView3"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="32dp"
-            android:text="Tap to generate your avatar or select your own"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/edt_password" />
-
-        <ImageView
-            android:id="@+id/btn_generate_avatar"
-            android:layout_width="100dp"
-            android:layout_height="100dp"
-            android:layout_marginTop="16dp"
-            app:layout_constraintEnd_toStartOf="@+id/btn_generate_color"
-            app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintHorizontal_chainStyle="packed"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textView3"
-            android:background="@{viewModel.userAvatarColor == null ? @color/colorTransparent : viewModel.userAvatarColor}"
-            android:src="@{viewModel.userAvatar == null ? @drawable/ic_user_avatar00 : viewModel.userAvatar}"/>
-
-        <!-- app:backgroundColor="@{viewModel.userAvatarColor}" - for using binding adapter -->
-
-        <Button
-            android:id="@+id/btn_select_avatar"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/activity_login_horizontal_margin"
-            android:layout_marginLeft="@dimen/activity_login_horizontal_margin"
-            android:layout_marginTop="16dp"
-            android:layout_marginEnd="@dimen/activity_login_horizontal_margin"
-            android:layout_marginRight="@dimen/activity_login_horizontal_margin"
-            android:background="@color/colorPrimary"
-            android:text="Select"
-            android:textColor="@android:color/background_light"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/btn_generate_avatar" />
-
-        <Button
-            android:id="@+id/btn_create_account"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/activity_login_horizontal_margin"
-            android:layout_marginLeft="@dimen/activity_login_horizontal_margin"
-            android:layout_marginEnd="@dimen/activity_login_horizontal_margin"
-            android:layout_marginRight="@dimen/activity_login_horizontal_margin"
-            android:layout_marginBottom="16dp"
-            android:background="@color/colorPrimary"
-            android:text="Create account"
-            android:textColor="@android:color/background_light"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent" />
-
-        <Button
-            android:id="@+id/btn_generate_color"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-            android:layout_marginLeft="8dp"
-            android:background="@color/colorPrimary"
-            android:text="Color"
-            android:textColor="@android:color/background_light"
-            app:layout_constraintBottom_toTopOf="@+id/btn_select_avatar"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintStart_toEndOf="@+id/btn_generate_avatar"
-            app:layout_constraintTop_toBottomOf="@+id/textView3" />
-    </androidx.constraintlayout.widget.ConstraintLayout>
-
-    <data>
-        <variable
-            name="viewModel"
-            type="com.example.messagechat.ui.createaccount.CreateAccountViewModel" />
-    </data>
-</layout>

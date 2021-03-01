@@ -4,4 +4,6 @@
     <color name="colorPrimaryDark">#28B308</color>
     <color name="colorAccent">#35A337</color>
     <color name="colorTransparent">#00000000</color>
+    <color name="colorWhite">#FFFFFF</color>
+    <color name="colorBottomNavItemNormal">#BABABD</color>
 </resources>

@@ -1,5 +1,6 @@
 package com.example.messagechat.ui.appmain
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
@@ -11,9 +12,8 @@ import androidx.databinding.DataBindingUtil
 import androidx.navigation.NavController
 import com.example.messagechat.R
 import com.example.messagechat.databinding.ActivityAppMainBinding
+import com.example.messagechat.ui.login.LoginActivity
 import kotlinx.android.synthetic.main.app_bar_main.view.*
-import kotlinx.android.synthetic.main.content_main.view.*
-import kotlinx.android.synthetic.main.nav_header_main.view.*
 
 class AppMainActivity : AppCompatActivity() {
 
@@ -26,6 +26,8 @@ class AppMainActivity : AppCompatActivity() {
         binding = DataBindingUtil.setContentView(this,
             R.layout.activity_app_main
         )
+        //binding.lifecycleOwner = this
+        login()
 
         //Setup navigation
         setSupportActionBar(binding.drawerLayout.toolbar)
@@ -35,7 +37,7 @@ class AppMainActivity : AppCompatActivity() {
         // menu should be considered as top level destinations.
         appBarConfiguration = AppBarConfiguration(
             setOf(
-                R.id.nav_home//, R.id.nav_gallery, R.id.nav_slideshow
+                R.id.nav_home //, R.id.nav_gallery, R.id.nav_slideshow
             ), binding.drawerLayout
         )
 
@@ -43,7 +45,17 @@ class AppMainActivity : AppCompatActivity() {
         binding.navView.setupWithNavController(navController)
         //End setup navigation
 
-        binding.navHeaderInclude.btn_navheader_login.setOnClickListener {
+        initListeners()
+    }
+
+    private fun login() {
+        val intent: Intent = Intent(this, LoginActivity::class.java)
+
+    }
+
+    private fun initListeners() {
+
+        /*binding.navHeaderInclude.btn_navheader_login.setOnClickListener {
             //val loginIntent = Intent(this, LoginActivity::class.java)
             //startActivity(loginIntent)
 
@@ -56,7 +68,7 @@ class AppMainActivity : AppCompatActivity() {
 
         binding.drawerLayout.btn_main_sendmsg.setOnClickListener {
 
-        }
+        }*/
     }
 
 

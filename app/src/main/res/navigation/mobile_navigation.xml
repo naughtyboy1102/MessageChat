@@ -5,6 +5,8 @@
     android:id="@+id/mobile_navigation"
     app:startDestination="@+id/nav_home">
 
+    <include app:graph="@navigation/activity_login_graph"/>
+
     <fragment
         android:id="@+id/nav_home"
         android:name="com.example.messagechat.ui.home.HomeFragment"
@@ -12,10 +14,18 @@
         tools:layout="@layout/fragment_home" >
         <action
             android:id="@+id/action_nav_home_to_nav_gallery"
-            app:destination="@id/nav_gallery" />
+            app:destination="@id/nav_gallery"
+            app:enterAnim="@anim/slide_left"
+            app:exitAnim="@anim/wait_anim"
+            app:popEnterAnim="@anim/wait_anim"
+            app:popExitAnim="@anim/slide_right"/>
         <action
-            android:id="@+id/action_nav_home_to_loginActivity"
-            app:destination="@id/loginActivity" />
+            android:id="@+id/action_nav_home_to_login_graph"
+            app:destination="@id/activity_login_graph"
+            app:enterAnim="@anim/slide_left"
+            app:exitAnim="@anim/wait_anim"
+            app:popEnterAnim="@anim/wait_anim"
+            app:popExitAnim="@anim/slide_right"/>
     </fragment>
 
     <fragment
@@ -30,8 +40,15 @@
         android:label="@string/menu_slideshow"
         tools:layout="@layout/fragment_slideshow" />
 
-    <activity
+    <!-- <fragment
+        android:id="@+id/loginFragment"
+        android:name="com.example.messagechat.ui.login.LoginFragment"
+        android:label="Login"
+        tools:layout="@layout/fragment_login" /> -->
+
+    <!-- <activity
         android:id="@+id/loginActivity"
         android:name="com.example.messagechat.ui.login.LoginActivity"
-        android:label="LoginActivity" />
+        android:label="LoginActivity"
+        tools:layout="@layout/activity_login"/> -->
 </navigation>
