@@ -14,11 +14,9 @@ class HomeViewModel : ObservableViewModel() {
     private var bottomNavContactsDrawable: Drawable? = null
     private var bottomNavContactsTextColor: Int? = null
     private var isBottomNavChatSelected: Boolean = true
-
-    private val _text = MutableLiveData<String>().apply {
-        value = "This is home Fragment"
-    }
-    val text: LiveData<String> = _text
+    /*private var isBottomNavChatSelected = MutableLiveData<Boolean>().apply {
+        value = true
+    }*/
 
     @Bindable
     fun getBottomNavChatDrawable() = bottomNavChatDrawable

@@ -2,6 +2,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.messagechat">
 
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.INTERNET"/>
 
     <application
@@ -12,9 +13,6 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:networkSecurityConfig="@xml/network_security_config">
-
-        <activity android:name=".ui.createaccount.CreateAccountActivity"/>
-        <activity android:name="com.example.messagechat.ui.login.LoginActivity" />
         <activity
             android:name="com.example.messagechat.ui.appmain.AppMainActivity"
             android:label="@string/title_activity_app_main"
@@ -25,7 +23,6 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name="com.example.messagechat.ui.appmain.MainActivity" />
     </application>
 
 </manifest>

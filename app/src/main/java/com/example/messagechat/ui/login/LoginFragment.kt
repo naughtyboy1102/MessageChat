@@ -1,17 +1,21 @@
 package com.example.messagechat.ui.login
 
+import android.content.Context
 import android.os.Bundle
 import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
-import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.NavController
 import androidx.navigation.fragment.findNavController
 import com.example.messagechat.R
 import com.example.messagechat.SocketInstance
 import com.example.messagechat.databinding.FragmentLoginBinding
+import com.example.messagechat.utils.UtilMethods
 import com.github.nkzawa.socketio.client.Socket
 
 // TODO: Rename parameter arguments, choose names that match
@@ -30,6 +34,8 @@ class LoginFragment : Fragment() {
     private var param2: String? = null
 
     private lateinit var binding: FragmentLoginBinding
+    private lateinit var loginViewModel: LoginViewModel
+    private lateinit var navController: NavController
     private var mSocket = SocketInstance().getSocket()
 
 
@@ -47,26 +53,51 @@ class LoginFragment : Fragment() {
     ): View? {
         // Inflate the layout for this fragment
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_login, container, false)
-
+        loginViewModel = ViewModelProvider(this).get(LoginViewModel::class.java)
+        binding.loginViewModel = loginViewModel
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        navController = findNavController()
         initListeners()
+        initObservers()
         initSocketListeners()
         mSocket?.connect()
     }
 
+    private fun initObservers() {
+        loginViewModel.getLoginResponse().observe(viewLifecycleOwner, Observer {
+            if (it != null) {
+                val pref = requireActivity().getSharedPreferences("LOGIN_ACCESS_TOKEN", Context.MODE_PRIVATE);
+                val loginPref = pref.edit()
+                loginPref.putString("accountId", it.id)
+                loginPref.putString("accountToken", it.token)
+                loginPref.putString("accountEmail", it.email)
+                loginPref.apply()
+                UtilMethods.hideLoading()
+                navController.navigate(R.id.action_nav_loginFragment_to_nav_homeFragment)
+            }
+        })
+    }
+
     private fun initListeners() {
         binding.btnFragmentLoginLogin.setOnClickListener {
+            UtilMethods.showLoading(requireContext())
+            if (UtilMethods.isConnectedToInternet(requireContext())) {
+                loginViewModel.login(binding.edtFragmentLoginEmail.text.toString(), binding.edtFragmentLoginPassword.text.toString())
+            } else {
+                UtilMethods.hideLoading()
+                UtilMethods.showLongToast(requireContext(), "No internet connection!")
+            }
 
         }
 
         binding.btnFragmentLoginCreateAccount.setOnClickListener {
             //val createAccountIntent = Intent(this, CreateAccountActivity::class.java)
             //tartActivity(createAccountIntent)
-            findNavController().navigate(R.id.createAccountFragment)
+            navController.navigate(R.id.nav_createAccountFragment)
         }
     }
 

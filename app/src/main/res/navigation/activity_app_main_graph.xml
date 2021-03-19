@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/activity_app_main_graph"
+    app:startDestination="@+id/nav_startFragment">
+
+    <fragment
+        android:id="@+id/nav_homeFragment"
+        android:name="com.example.messagechat.ui.home.HomeFragment"
+        android:label="@string/menu_home"
+        tools:layout="@layout/fragment_home">
+        <action
+            android:id="@+id/action_nav_home_to_nav_gallery"
+            app:destination="@id/nav_gallery"
+            app:enterAnim="@anim/slide_left"
+            app:exitAnim="@anim/wait_anim"
+            app:popEnterAnim="@anim/wait_anim"
+            app:popExitAnim="@anim/slide_right"/>
+        <action
+            android:id="@+id/action_nav_homeFragment_to_nav_slideshow"
+            app:destination="@id/nav_slideshow" />
+        <!--        <action-->
+<!--            android:id="@+id/action_nav_home_to_login_graph"-->
+<!--            app:destination="@id/activity_login_graph"-->
+<!--            app:enterAnim="@anim/slide_left"-->
+<!--            app:exitAnim="@anim/wait_anim"-->
+<!--            app:popEnterAnim="@anim/wait_anim"-->
+<!--            app:popExitAnim="@anim/slide_right"/>-->
+    </fragment>
+
+    <fragment
+        android:id="@+id/nav_gallery"
+        android:name="com.example.messagechat.ui.gallery.GalleryFragment"
+        android:label="@string/menu_gallery"
+        tools:layout="@layout/fragment_gallery" />
+
+    <fragment
+        android:id="@+id/nav_slideshow"
+        android:name="com.example.messagechat.ui.slideshow.SlideshowFragment"
+        android:label="@string/menu_slideshow"
+        tools:layout="@layout/fragment_slideshow" />
+
+    <fragment
+        android:id="@+id/nav_startFragment"
+        android:name="com.example.messagechat.ui.start.StartFragment"
+        android:label="fragment_start"
+        tools:layout="@layout/fragment_start" >
+        <action
+            android:id="@+id/action_nav_startFragment_to_nav_loginFragment"
+            app:destination="@id/nav_loginFragment"/>
+<!--            app:popUpTo="@id/nav_homeFragment"-->
+<!--            app:popUpToInclusive="true"-->
+<!--            app:launchSingleTop="true"-->
+        <action
+            android:id="@+id/action_nav_startFragment_to_nav_homeFragment"
+            app:destination="@id/nav_homeFragment"
+            app:popUpTo="@id/nav_startFragment"
+            app:popUpToInclusive="true"
+            app:launchSingleTop="true"/>
+    </fragment>
+
+    <fragment
+        android:id="@+id/nav_loginFragment"
+        android:name="com.example.messagechat.ui.login.LoginFragment"
+        android:label="Login"
+        tools:layout="@layout/fragment_login" >
+        <action
+            android:id="@+id/action_nav_loginFragment_to_createAccountFragment"
+            app:destination="@id/nav_createAccountFragment" />
+        <action
+            android:id="@+id/action_nav_loginFragment_to_nav_homeFragment"
+            app:destination="@id/nav_homeFragment"
+            app:popUpTo="@id/nav_startFragment"
+            app:popUpToInclusive="true"/>
+    </fragment>
+
+    <fragment
+        android:id="@+id/nav_createAccountFragment"
+        android:name="com.example.messagechat.ui.createaccount.CreateAccountFragment"
+        android:label="CreateAccountFragment" />
+
+</navigation>
