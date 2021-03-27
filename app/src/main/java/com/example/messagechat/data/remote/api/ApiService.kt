@@ -1,4 +1,4 @@
-package com.example.messagechat.data.api
+package com.example.messagechat.data.remote.api
 
 import com.example.messagechat.utils.Constants
 import retrofit2.Retrofit

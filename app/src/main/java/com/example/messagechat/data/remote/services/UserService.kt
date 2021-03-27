@@ -1,6 +1,6 @@
-package com.example.messagechat.data.services
+package com.example.messagechat.data.remote.services
 
-import com.example.messagechat.data.api.IApiService
+import com.example.messagechat.data.remote.api.IApiService
 import retrofit2.Retrofit
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
 import retrofit2.converter.gson.GsonConverterFactory

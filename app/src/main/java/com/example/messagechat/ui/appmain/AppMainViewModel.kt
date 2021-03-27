@@ -1,68 +1,35 @@
 package com.example.messagechat.ui.appmain
 
-import android.graphics.drawable.Drawable
 import android.util.Log
-import androidx.databinding.Bindable
 import androidx.lifecycle.MutableLiveData
-import com.example.messagechat.data.api.ApiService
-import com.example.messagechat.data.api.response.UserResponse
+import com.example.messagechat.data.remote.api.response.UserResponse
+import com.example.messagechat.data.repository.user.UserRepository
 import com.example.messagechat.databindingcomponent.ObservableViewModel
-import com.example.messagechat.utils.Constants
-import io.reactivex.android.schedulers.AndroidSchedulers
-import io.reactivex.schedulers.Schedulers
+import io.reactivex.disposables.CompositeDisposable
 
-class AppMainViewModel : ObservableViewModel() {
+class AppMainViewModel(private val userRepository: UserRepository) : ObservableViewModel() {
     private var user = MutableLiveData<UserResponse>()
-    private var userName = "No User"
-    private var userAvatar: Drawable? = null
-    private var userEmail : String = "null@gmail.com"
-    //private lateinit var user : User
+    private var isLoggedIn = MutableLiveData<Boolean>()
+    // This used to dispose observer when no need to use any more to avoid memory leaks problem, should be called in onDestroy
+    // CompositeDisposable is used for containing multi observers, Disposable for single observer
+    private var compositeDisposable: CompositeDisposable = CompositeDisposable()
 
-    fun fetchUserInfo() {
-        ApiService.getApiService().getUserInfo(Constants.AUTH_TOKEN,"tung123@gmail.com")
-            .subscribeOn(Schedulers.io())
-            .observeOn(AndroidSchedulers.mainThread())
-            .subscribe({ userResponse ->
+    fun fetchUserInfo(authToken: String, id: String) {
+        compositeDisposable.add( // use compositeDisposable.clear()
+            userRepository.getUserInfo(authToken, id)
+                .subscribe({ userResponse ->
                 user.value = userResponse
-            }, {error ->
+            }, { error ->
                 Log.e("UserService", "getUserInfo() error: $error")
             })
-//        disposable.add(
-//            userService.getUserInfo()
-//                .subscribeOn(Schedulers.io())
-//                .observeOn(AndroidSchedulers.mainThread())
-//                .subscribeWith(object : DisposableSingleObserver<List<User>>() {
-//                    override fun onSuccess(value: List<User>?) {
-//                        user.value = value
-//                        Log.d("UserService", "getUserInfo() success: $value")
-//                    }
-//                    override fun onError(e: Throwable?) {
-//                        Log.e("UserService", "getUserInfo() error: $e")
-//                    }
-//                })
-//        )
+        )
     }
 
     fun getUser() : MutableLiveData<UserResponse> = user
 
-    fun getUserName(): String = userName
+    fun getIsLoggedIn() : MutableLiveData<Boolean> = isLoggedIn
 
-    fun getUserAvatar(): Drawable? = userAvatar
-
-    fun getUserEmail(): String = userEmail
-
-    fun setUserName(name: String) {
-        userName = name
-        //notifyPropertyChanged(BR.userName)
-    }
-
-    fun setUserAvatar(avatar: Drawable?) {
-        userAvatar = avatar
-        //notifyPropertyChanged(BR.userAvatar)
-    }
-
-    fun setUserEmail(name: String) {
-        userEmail = name
-        //notifyPropertyChanged(BR.userEmail)
+    fun setIsLoggedIn(value: Boolean) {
+        isLoggedIn.value = value
     }
 }

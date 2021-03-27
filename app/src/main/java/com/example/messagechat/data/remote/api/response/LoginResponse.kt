@@ -1,4 +1,4 @@
-package com.example.messagechat.data.api.response
+package com.example.messagechat.data.remote.api.response
 
 import com.google.gson.annotations.SerializedName
 

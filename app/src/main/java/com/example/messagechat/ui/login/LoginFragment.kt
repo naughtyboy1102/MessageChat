@@ -2,21 +2,22 @@ package com.example.messagechat.ui.login
 
 import android.content.Context
 import android.os.Bundle
-import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.NavController
 import androidx.navigation.fragment.findNavController
 import com.example.messagechat.R
-import com.example.messagechat.SocketInstance
+import com.example.messagechat.data.repository.login.LoginRepositoryImpl
 import com.example.messagechat.databinding.FragmentLoginBinding
+import com.example.messagechat.ui.appmain.AppMainViewModel
+import com.example.messagechat.utils.Constants
 import com.example.messagechat.utils.UtilMethods
-import com.github.nkzawa.socketio.client.Socket
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -35,9 +36,15 @@ class LoginFragment : Fragment() {
 
     private lateinit var binding: FragmentLoginBinding
     private lateinit var loginViewModel: LoginViewModel
+    private lateinit var appMainViewModel: AppMainViewModel
     private lateinit var navController: NavController
-    private var mSocket = SocketInstance().getSocket()
-
+    private val loginViewModelFactory = object : ViewModelProvider.Factory {
+        override fun <T : ViewModel?> create(modelClass: Class<T>): T {
+            val repository = LoginRepositoryImpl(app = requireActivity().application)
+            @Suppress("UNCHECKED_CAST")
+            return LoginViewModel(repository) as T
+        }
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -53,7 +60,8 @@ class LoginFragment : Fragment() {
     ): View? {
         // Inflate the layout for this fragment
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_login, container, false)
-        loginViewModel = ViewModelProvider(this).get(LoginViewModel::class.java)
+        loginViewModel = ViewModelProvider(this, loginViewModelFactory).get(LoginViewModel::class.java)
+        appMainViewModel = ViewModelProvider(requireActivity()).get(AppMainViewModel::class.java)
         binding.loginViewModel = loginViewModel
         return binding.root
     }
@@ -63,21 +71,23 @@ class LoginFragment : Fragment() {
         navController = findNavController()
         initListeners()
         initObservers()
-        initSocketListeners()
-        mSocket?.connect()
     }
 
     private fun initObservers() {
         loginViewModel.getLoginResponse().observe(viewLifecycleOwner, Observer {
             if (it != null) {
-                val pref = requireActivity().getSharedPreferences("LOGIN_ACCESS_TOKEN", Context.MODE_PRIVATE);
+                val pref = requireActivity().getSharedPreferences(Constants.PREF_ACCOUNT_INFO, Context.MODE_PRIVATE)
                 val loginPref = pref.edit()
-                loginPref.putString("accountId", it.id)
-                loginPref.putString("accountToken", it.token)
-                loginPref.putString("accountEmail", it.email)
+                loginPref.putString(Constants.PREF_KEY_ACCOUNT_ID, it.id)
+                loginPref.putString(Constants.PREF_KEY_ACCOUNT_TOKEN, it.token)
+                loginPref.putString(Constants.PREF_KEY_ACCOUNT_EMAIL, it.email)
                 loginPref.apply()
                 UtilMethods.hideLoading()
+                appMainViewModel.setIsLoggedIn(true)
                 navController.navigate(R.id.action_nav_loginFragment_to_nav_homeFragment)
+            } else {
+                UtilMethods.hideLoading()
+                UtilMethods.showLongToast(requireContext(), "Login failed!")
             }
         })
     }
@@ -86,7 +96,7 @@ class LoginFragment : Fragment() {
         binding.btnFragmentLoginLogin.setOnClickListener {
             UtilMethods.showLoading(requireContext())
             if (UtilMethods.isConnectedToInternet(requireContext())) {
-                loginViewModel.login(binding.edtFragmentLoginEmail.text.toString(), binding.edtFragmentLoginPassword.text.toString())
+                loginViewModel.doLogin(binding.edtFragmentLoginEmail.text.toString(), binding.edtFragmentLoginPassword.text.toString())
             } else {
                 UtilMethods.hideLoading()
                 UtilMethods.showLongToast(requireContext(), "No internet connection!")
@@ -95,30 +105,13 @@ class LoginFragment : Fragment() {
         }
 
         binding.btnFragmentLoginCreateAccount.setOnClickListener {
-            //val createAccountIntent = Intent(this, CreateAccountActivity::class.java)
-            //tartActivity(createAccountIntent)
             navController.navigate(R.id.nav_createAccountFragment)
-        }
-    }
-
-    private fun initSocketListeners() {
-        mSocket?.on(Socket.EVENT_CONNECT) { args ->
-            Log.e("tung", "Connected")
-        }
-        mSocket?.on(Socket.EVENT_DISCONNECT) { args ->
-            Log.e("tung", "Disconnected")
-        }
-        mSocket?.on(Socket.EVENT_CONNECT_ERROR) { args ->
-            Log.e("tung", "Connected error")
-        }
-        mSocket?.on(Socket.EVENT_CONNECT_TIMEOUT) { args ->
-            Log.e("tung", "Connected error - time out")
         }
     }
 
     override fun onDestroy() {
         super.onDestroy()
-        mSocket?.disconnect()
+        loginViewModel.getDisposable().dispose()
     }
 
     companion object {
