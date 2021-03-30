@@ -16,9 +16,9 @@
             android:title="@string/menu_slideshow"/>
 
         <item
-            android:id="@+id/activity_login_graph"
+            android:id="@+id/nav_logout"
             android:icon="@drawable/ic_menu_share"
-            android:title="@string/menu_slideshow" />
+            android:title="@string/menu_logout" />
     </group>
 
 

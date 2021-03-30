@@ -10,9 +10,12 @@ import android.widget.Button
 import androidx.appcompat.app.ActionBar
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.NavController
 import androidx.navigation.fragment.findNavController
 import com.example.messagechat.R
+import com.example.messagechat.ui.appmain.AppMainViewModel
+import com.example.messagechat.utils.Constants
 
 
 // TODO: Rename parameter arguments, choose names that match
@@ -32,6 +35,8 @@ class StartFragment : Fragment() {
 
     private lateinit var btnLogin: Button
     private lateinit var navController: NavController
+    private lateinit var appMainViewModel: AppMainViewModel
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -41,13 +46,7 @@ class StartFragment : Fragment() {
             param2 = it.getString(ARG_PARAM2)
         }
 
-        val pref = requireActivity().getSharedPreferences("LOGIN_ACCESS_TOKEN", Context.MODE_PRIVATE);
-        val token = pref.getString("accountToken", null)
-        navController = findNavController()
 
-        if (token != null) {
-            navController.navigate(R.id.action_nav_startFragment_to_nav_homeFragment)
-        }
     }
 
     override fun onCreateView(
@@ -55,6 +54,15 @@ class StartFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
+        val pref = requireActivity().getSharedPreferences(Constants.PREF_ACCOUNT_INFO, Context.MODE_PRIVATE);
+        val token = pref.getString(Constants.PREF_KEY_ACCOUNT_TOKEN, null)
+        navController = findNavController()
+
+        if (token != null) {
+            appMainViewModel = ViewModelProvider(requireActivity()).get(AppMainViewModel::class.java)
+            appMainViewModel.setIsLoggedIn(true)
+            navController.navigate(R.id.action_nav_startFragment_to_nav_homeFragment)
+        }
         return inflater.inflate(R.layout.fragment_start, container, false)
     }
 

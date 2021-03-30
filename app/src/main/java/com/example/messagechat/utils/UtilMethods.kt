@@ -23,6 +23,7 @@ object UtilMethods {
         progressDialogBuilder = AlertDialog.Builder(context)
         progressDialogBuilder.setCancelable(false) // if you want user to wait for some process to finish,
         progressDialogBuilder.setView(R.layout.layout_loading_dialog)
+        progressDialogBuilder.setTitle("Please wait...")
 
         progressDialog = progressDialogBuilder.create()
         progressDialog.show()
@@ -33,7 +34,9 @@ object UtilMethods {
      */
     fun hideLoading(){
         try {
-            progressDialog.dismiss()
+            if (progressDialog.isShowing) {
+                progressDialog.dismiss()
+            }
         }catch (ex: java.lang.Exception){
             Log.e(TAG, ex.toString())
         }
@@ -58,15 +61,15 @@ object UtilMethods {
     fun isConnectedToInternet(context: Context): Boolean {
         val manager = context.getSystemService(Context.CONNECTIVITY_SERVICE) as? ConnectivityManager
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            val allNetworks = manager?.allNetworks?.let { it } ?: return false
-            allNetworks.forEach { network ->
+            val allNetworks = manager?.allNetworks
+            allNetworks?.forEach { network ->
                 val info = manager.getNetworkInfo(network)
-                if (info?.state == NetworkInfo.State.CONNECTED) return true
+                if (info?.state == NetworkInfo.State.CONNECTED && info.isAvailable) return true
             }
         } else {
-            val allNetworkInfo = manager?.allNetworkInfo?.let { it } ?: return false
-            allNetworkInfo.forEach { info ->
-                if (info?.state == NetworkInfo.State.CONNECTED) return true
+            val allNetworkInfo = manager?.allNetworkInfo
+            allNetworkInfo?.forEach { info ->
+                if (info?.state == NetworkInfo.State.CONNECTED && info.isAvailable) return true
             }
         }
         return false

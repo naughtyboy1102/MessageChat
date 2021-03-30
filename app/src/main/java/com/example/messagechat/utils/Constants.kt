@@ -7,4 +7,5 @@ object Constants {
     const val PREF_KEY_ACCOUNT_ID = "key_account_id"
     const val PREF_KEY_ACCOUNT_TOKEN = "key_account_token"
     const val PREF_KEY_ACCOUNT_EMAIL = "key_account_email"
+    const val PREF_KEY_FIRST_TIME_LOGGED_IN = "key_first_time_logged_in"
 }

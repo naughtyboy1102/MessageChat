@@ -1,5 +1,6 @@
 package com.example.messagechat.data.remote.api.response
 
+import com.example.messagechat.data.local.models.User
 import com.google.gson.annotations.SerializedName
 
 data class UserResponse (
@@ -10,7 +11,16 @@ data class UserResponse (
     @SerializedName("email")
     var userEmail: String = "",
     @SerializedName("avatar")
-    var userAvatar: String? = "",
+    var userAvatar: String = "",
     @SerializedName("__v")
     var __v : Int = 0
 )
+
+fun UserResponse.asDatabaseModel() : User {
+    return User(
+        id = userId,
+        name = userName,
+        email = userEmail,
+        avatar = userAvatar
+    )
+}
